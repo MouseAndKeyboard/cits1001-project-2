@@ -42,7 +42,7 @@ public class Aquarium
             
             Space[] spaceRow = new Space[size];
             Arrays.fill(spaceRow, Space.EMPTY);
-            spaces[lineNumber - 3] = spaceRow;            
+            spaces[lineNumber - 3] = spaceRow;
         }
     }
     

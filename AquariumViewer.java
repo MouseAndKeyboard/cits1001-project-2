@@ -32,6 +32,7 @@ public class AquariumViewer implements MouseListener
         
         displayGrid();
         displayNumbers();
+        displayAquariums();
     }
     
     /**
@@ -133,7 +134,13 @@ public class AquariumViewer implements MouseListener
      */
     public void displayAquariums()
     {
-        // TODO 11
+        int[][] aquariums = puzzle.getAquariums();
+        
+        for (int row = 0; row < aquariums.length; ++row) {
+            for (int column = 0; column < aquariums.length; ++column) {
+                sc.drawString(aquariums[row][column], OFFSET + BOXSIZE * column + BOXSIZE / 2, OFFSET + BOXSIZE * row + BOXSIZE / 2, Color.black);
+            } 
+        }
     }
     
     /**
