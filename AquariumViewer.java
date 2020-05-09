@@ -25,7 +25,11 @@ public class AquariumViewer implements MouseListener
      */
     public AquariumViewer(Aquarium puzzle)
     {
-        // TODO 8
+        this.puzzle = puzzle;
+        size = puzzle.getSize();
+        WINDOWSIZE = 200;
+        sc = new SimpleCanvas("Aquarium Game", WINDOWSIZE, WINDOWSIZE, Color.white);
+        
     }
     
     /**
