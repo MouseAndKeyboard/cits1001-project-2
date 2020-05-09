@@ -50,8 +50,7 @@ public class Aquarium
      */
     public int getSize()
     {
-        // TODO 1a
-        return -1;
+        return size;
     }
     
     /**
@@ -59,8 +58,7 @@ public class Aquarium
      */
     public int[] getColumnTotals()
     {
-        // TODO 1b
-        return null;
+        return columnTotals;
     }
     
     /**
@@ -68,8 +66,7 @@ public class Aquarium
      */
     public int[] getRowTotals()
     {
-        // TODO 1c
-        return null;
+        return rowTotals;
     }
     
     /**
@@ -77,8 +74,7 @@ public class Aquarium
      */
     public int[][] getAquariums()
     {
-        // TODO 1d
-        return null;
+        return aquariums;
     }
     
     /**
@@ -86,8 +82,7 @@ public class Aquarium
      */
     public Space[][] getSpaces()
     {
-        // TODO 1e
-        return null;
+        return spaces;
     }
     
     /**
