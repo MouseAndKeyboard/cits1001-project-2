@@ -134,7 +134,14 @@ public class Aquarium
      */
     public void rightClick(int r, int c)
     {
-        // TODO 5
+        if (c >= 0 && c < size && r >= 0 && r < size) {
+            if (spaces[r][c] == Space.AIR) {
+                spaces[r][c] = Space.EMPTY;
+            }
+            else {
+                spaces[r][c] = Space.AIR;
+            }
+        }
     }
     
     /**
