@@ -92,7 +92,18 @@ public class AquariumViewer implements MouseListener
             int yBegin = OFFSET;
             
             int xEnd = xBegin;
-            int yEnd = BOXSIZE * size;
+            int yEnd = WINDOWSIZE - OFFSET;
+            
+            sc.drawLine(xBegin, yBegin, xEnd, yEnd, Color.black);
+        }
+        
+        for (int row = 0; row < size + 1; ++row) {
+            
+            int xBegin = OFFSET;
+            int yBegin = OFFSET + BOXSIZE * row;
+            
+            int xEnd = WINDOWSIZE - OFFSET;
+            int yEnd = yBegin;
             
             sc.drawLine(xBegin, yBegin, xEnd, yEnd, Color.black);
         }
