@@ -50,8 +50,7 @@ public class AquariumViewer implements MouseListener
      */
     public Aquarium getPuzzle()
     {
-        // TODO 7a
-        return null;
+        return puzzle;
     }
     
     /**
@@ -59,8 +58,7 @@ public class AquariumViewer implements MouseListener
      */
     public int getSize()
     {
-        // TODO 7b
-        return -1;
+        return size;
     }
 
     /**
@@ -68,8 +66,7 @@ public class AquariumViewer implements MouseListener
      */
     public SimpleCanvas getCanvas()
     {
-        // TODO 7c
-        return null;
+        return sc;
     }
     
     /**
