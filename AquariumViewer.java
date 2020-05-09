@@ -31,6 +31,7 @@ public class AquariumViewer implements MouseListener
         sc = new SimpleCanvas("Aquarium Game", WINDOWSIZE, WINDOWSIZE, Color.white);
         
         displayGrid();
+        displayNumbers();
     }
     
     /**
@@ -114,7 +115,17 @@ public class AquariumViewer implements MouseListener
      */
     public void displayNumbers()
     {
-        // TODO 10
+        for (int column = 0; column < size; ++column) {
+            int x = OFFSET + BOXSIZE * column + BOXSIZE / 2;
+            int y = OFFSET - 10;
+            sc.drawString(column, x, y, Color.black);
+        }
+        
+        for (int row = 0; row < size; ++row) {
+            int x = OFFSET - 20;
+            int y = OFFSET + BOXSIZE * row + BOXSIZE / 2;
+            sc.drawString(row, x, y, Color.black);
+        }
     }
     
     /**
