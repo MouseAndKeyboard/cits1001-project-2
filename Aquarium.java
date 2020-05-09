@@ -5,6 +5,10 @@
  * @author Lyndon While 
  * @version 2020
  */
+
+import java.util.ArrayList;
+import java.util.Arrays;
+
 public class Aquarium
 {
     private int   size;         // the board is size x size
@@ -23,7 +27,23 @@ public class Aquarium
      */
     public Aquarium(String filename)
     {
-        // TODO 3
+        FileIO fileHandler = new FileIO(filename);
+        ArrayList<String> lines = fileHandler.getLines();
+        
+        columnTotals = parseLine(lines.get(0));
+        rowTotals = parseLine(lines.get(1));
+        
+        size = columnTotals.length;
+        
+        spaces = new Space[size][size];
+        aquariums = new int[size][size];
+        for (int lineNumber = 3; lineNumber < lines.size(); ++lineNumber) {
+            aquariums[lineNumber - 3] = parseLine(lines.get(lineNumber));
+            
+            Space[] spaceRow = new Space[size];
+            Arrays.fill(spaceRow, Space.EMPTY);
+            spaces[lineNumber - 3] = spaceRow;            
+        }
     }
     
     /**
