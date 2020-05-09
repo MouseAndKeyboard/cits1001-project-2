@@ -27,9 +27,10 @@ public class AquariumViewer implements MouseListener
     {
         this.puzzle = puzzle;
         size = puzzle.getSize();
-        WINDOWSIZE = 200;
+        WINDOWSIZE = size * BOXSIZE + 2*OFFSET;
         sc = new SimpleCanvas("Aquarium Game", WINDOWSIZE, WINDOWSIZE, Color.white);
         
+        displayGrid();
     }
     
     /**
@@ -86,7 +87,15 @@ public class AquariumViewer implements MouseListener
      */
     public void displayGrid()
     {
-        // TODO 9
+        for (int column = 0; column < size + 1; ++column) {
+            int xBegin = OFFSET + BOXSIZE * column;
+            int yBegin = OFFSET;
+            
+            int xEnd = xBegin;
+            int yEnd = BOXSIZE * size;
+            
+            sc.drawLine(xBegin, yBegin, xEnd, yEnd, Color.black);
+        }
     }
     
     /**
