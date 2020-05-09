@@ -149,6 +149,10 @@ public class Aquarium
      */
     public void clear()
     {
-        // TODO 6
+        for (int rowIndex = 0; rowIndex < size; ++rowIndex) {
+            for (int colIndex = 0; colIndex < size; ++colIndex) {
+                spaces[rowIndex][colIndex] = Space.EMPTY;
+            }
+        }
     }
 }
