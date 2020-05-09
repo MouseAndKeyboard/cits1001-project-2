@@ -41,8 +41,15 @@ public class Aquarium
      */
     public static int[] parseLine(String s)
     {
-        // TODO 2
-        return null;
+        String[] numberStrings = s.split(" ");
+        
+        int[] numbers = new int[numberStrings.length];
+        
+        for (int numberIndex = 0; numberIndex < numberStrings.length; ++numberIndex) {
+            numbers[numberIndex] = Integer.parseInt(numberStrings[numberIndex]);
+        }
+        
+        return numbers;
     }
     
     /**
