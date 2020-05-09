@@ -33,6 +33,7 @@ public class AquariumViewer implements MouseListener
         displayGrid();
         displayNumbers();
         displayAquariums();
+        displayButtons();
     }
     
     /**
@@ -142,13 +143,36 @@ public class AquariumViewer implements MouseListener
             } 
         }
     }
-    
+        
     /**
      * Displays the buttons below the grid.
      */
     public void displayButtons()
     {
-        // TODO 12
+        int buttonGap = BOXSIZE / 2;
+        
+        int buttonContainerBottom = WINDOWSIZE - buttonGap;
+        int buttonContainerTop = WINDOWSIZE - (OFFSET - buttonGap);
+        
+        int buttonContainerLeft = OFFSET;
+        int buttonContainerRight = WINDOWSIZE - OFFSET;
+        
+        int buttonContainerWidth = buttonContainerRight - buttonContainerLeft;
+        int buttonContainerHeight = buttonContainerTop - buttonContainerBottom;
+        
+        int buttonWidth = (buttonContainerWidth - buttonGap) / 2;
+        
+        // Solved?? button
+        int solvedX1 = buttonContainerLeft;
+        int solvedX2 = buttonContainerLeft + buttonWidth;
+        sc.drawRectangle(solvedX1, buttonContainerTop, solvedX2, buttonContainerBottom, Color.red);
+        sc.drawString("Solved?", solvedX1 + (buttonWidth / 4), buttonContainerTop - (buttonContainerHeight / 2), Color.black);
+        
+        // reset button
+        int resetX1 = solvedX2 + buttonGap;
+        int resetX2 = resetX1 + buttonWidth;
+        sc.drawRectangle(resetX1, buttonContainerTop, resetX2, buttonContainerBottom, Color.blue);
+        sc.drawString("Clear", resetX1 + (buttonWidth / 4), buttonContainerTop - (buttonContainerHeight / 2), Color.black);
     }
     
     /**
