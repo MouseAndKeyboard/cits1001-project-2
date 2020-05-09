@@ -116,7 +116,7 @@ public class AquariumTest
             for (int j = 0; j < 6; j++)
             {
                 assertEquals("wrong entry", Space.EMPTY, a6.getSpaces()[i][j]);
-                a6.leftClick(i,j);
+                a6.leftClick(i,j);                
                 assertEquals("wrong entry", Space.WATER, a6.getSpaces()[i][j]);
                 a6.leftClick(i,j);
                 assertEquals("wrong entry", Space.EMPTY, a6.getSpaces()[i][j]);

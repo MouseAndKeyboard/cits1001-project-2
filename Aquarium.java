@@ -117,8 +117,15 @@ public class Aquarium
      * A water space becomes empty; other spaces become water. 
      */
     public void leftClick(int r, int c)
-    {
-        // TODO 4
+    {        
+        if (c >= 0 && c < size && r >= 0 && r < size) {
+            if (spaces[r][c] == Space.WATER) {
+                spaces[r][c] = Space.EMPTY;
+            }
+            else {
+                spaces[r][c] = Space.WATER;
+            }
+        }
     }
     
     /**
