@@ -20,8 +20,21 @@ public class CheckSolution
      */
     public static int[] rowCounts(Aquarium p)
     {
-        // TODO 16
-        return null;
+        int[] rows = new int[p.getSize()];
+        
+        for (int rowIndex = 0; rowIndex < p.getSize(); ++rowIndex) {
+            int waterSquares = 0;
+            
+            for (int colIndex = 0; colIndex < p.getSize(); ++colIndex) {
+                if(p.getSpaces()[rowIndex][colIndex] == Space.WATER){
+                    waterSquares += 1;
+                }
+            }
+            
+            rows[rowIndex] = waterSquares; 
+        }
+        
+        return rows;
     }
     
     /**
@@ -29,8 +42,21 @@ public class CheckSolution
      */
     public static int[] columnCounts(Aquarium p)
     {
-        // TODO 17
-        return null;
+        int[] columns = new int[p.getSize()];
+        
+        for (int colIndex = 0; colIndex < p.getSize(); ++colIndex) {
+            int waterSquares = 0;
+            
+            for (int rowIndex = 0; rowIndex < p.getSize(); ++rowIndex) {
+                if(p.getSpaces()[rowIndex][colIndex] == Space.WATER){
+                    waterSquares += 1;
+                }
+            }
+            
+            columns[colIndex] = waterSquares; 
+        }
+        
+        return columns;
     }
     
     /**
@@ -45,8 +71,41 @@ public class CheckSolution
      */
     public static int[] rowStatus(Aquarium p, int t, int r)
     {
-        // TODO 18
-        return null;
+        int[] status = new int[2];
+        boolean noSpaces = true;
+        boolean allWater = true;
+        boolean allNotWater = true;
+        int c = -1;
+        
+        for (int colIndex = 0; colIndex < p.getSize(); ++colIndex) {
+            
+            if(p.getAquariums()[r][colIndex] == t){
+                noSpaces = false;
+                c = colIndex;
+                
+                if(p.getSpaces()[r][colIndex] != Space.WATER){
+                    allWater = false;
+                }
+                
+                if(p.getSpaces()[r][colIndex] == Space.WATER){
+                    allNotWater = false;
+                }
+            }
+        }
+        
+        if(noSpaces){
+            status[0] = 0;
+        } else if(!allWater && !allNotWater){
+            status[0] = 3;
+        } else if(allNotWater){
+            status[0] = 2;
+        } else if(allWater){
+            status[0] = 1;
+        }
+     
+        status[1] = c;
+                
+        return status;
     }
     
     /**
