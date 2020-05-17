@@ -11,7 +11,7 @@ import javax.swing.SwingUtilities;
 
 public class AquariumViewer implements MouseListener
 {
-    private final int BOXSIZE = 40;          // the size of each square
+    private final int BOXSIZE = 80;          // the size of each square
     private final int OFFSET  = BOXSIZE * 2; // the gap around the board
     private       int WINDOWSIZE;            // set this in the constructor 
 
@@ -147,7 +147,16 @@ public class AquariumViewer implements MouseListener
             sc.drawString(puzzle.getRowTotals()[row], x, y, Color.black);
         }
     }
-
+    
+    
+    /**
+     * Displays a horizontal or vertical line (won't work with slanted lines) with a fixed width w.
+     */
+    public void drawLineAsRectangle(int x1, int y1, int x2, int y2, int width, Color c)
+    {   
+        sc.drawRectangle(x1 - width / 2, y1 - width / 2, x2 + width / 2, y2 + width / 2, c);
+    }
+    
     /**
      * Displays the aquariums.
      */
@@ -155,8 +164,26 @@ public class AquariumViewer implements MouseListener
     {
         int[][] aquariums = puzzle.getAquariums();
 
+        drawLineAsRectangle(OFFSET, OFFSET, OFFSET, WINDOWSIZE - OFFSET, 4, Color.red);
+        drawLineAsRectangle(OFFSET, OFFSET, WINDOWSIZE - OFFSET, OFFSET, 4, Color.red);
+        drawLineAsRectangle(WINDOWSIZE - OFFSET, OFFSET, WINDOWSIZE - OFFSET, WINDOWSIZE - OFFSET, 4, Color.red);
+        drawLineAsRectangle(OFFSET, WINDOWSIZE - OFFSET, WINDOWSIZE - OFFSET, WINDOWSIZE - OFFSET, 4, Color.red);
+        
         for (int row = 0; row < aquariums.length; ++row) {
             for (int column = 0; column < aquariums.length; ++column) {
+                
+                if (column + 1 < size) {
+                    
+                    if (aquariums[row][column + 1] != aquariums[row][column])
+                        drawLineAsRectangle(OFFSET + (column + 1) * BOXSIZE, OFFSET + row * BOXSIZE, OFFSET + (column + 1) * BOXSIZE, OFFSET + (row + 1) * BOXSIZE, 4, Color.red);
+                    
+                }    
+                
+                if (row + 1 < size) {
+                    if (aquariums[row + 1][column] != aquariums[row][column])
+                        drawLineAsRectangle(OFFSET + column * BOXSIZE, OFFSET + (row + 1) * BOXSIZE, OFFSET + (column + 1) * BOXSIZE, OFFSET + (row + 1) * BOXSIZE, 4, Color.red);
+                }
+                    
                 sc.drawString(aquariums[row][column], OFFSET + BOXSIZE * column + BOXSIZE / 2, OFFSET + BOXSIZE * row + BOXSIZE / 2, Color.black);
             } 
         }

@@ -1,4 +1,5 @@
 
+    
 /**
  * CheckSolution is a utility class which can check if
  * a board position in an Aquarium puzzle is a solution.
@@ -20,8 +21,17 @@ public class CheckSolution
      */
     public static int[] rowCounts(Aquarium p)
     {
-        // TODO 16
-        return null;
+        int[] rowsCounts = new int[p.getSize()];
+        Space[][] spaces = p.getSpaces();
+        
+        for (int row = 0; row < rowsCounts.length; ++row) {
+            for (Space cell : spaces[row]) {
+                if (cell == Space.WATER)
+                    rowsCounts[row]++;
+            }
+        }
+        
+        return rowsCounts;
     }
     
     /**
@@ -29,8 +39,17 @@ public class CheckSolution
      */
     public static int[] columnCounts(Aquarium p)
     {
-        // TODO 17
-        return null;
+        int[] columnCounts = new int[p.getSize()];
+        Space[][] spaces = p.getSpaces();
+        
+        for (int row = 0; row < columnCounts.length; ++row) {
+            for (int col = 0; col < columnCounts.length; ++col) {
+                if (spaces[row][col] == Space.WATER)
+                    columnCounts[col]++;
+            }
+        }
+        
+        return columnCounts;
     }
     
     /**
@@ -45,8 +64,36 @@ public class CheckSolution
      */
     public static int[] rowStatus(Aquarium p, int t, int r)
     {
-        // TODO 18
-        return null;
+        Space[] row = p.getSpaces()[r];
+        
+        boolean exists = false;
+        boolean hasWater = false;
+        boolean hasAir = false;
+        int[] collectiveStatus = { 0, -1 };
+        for (int columnIndex = 0; columnIndex < row.length; columnIndex++) {
+            if (p.getAquariums()[r][columnIndex] == t){
+                exists = true;
+                collectiveStatus[1] = columnIndex;
+                if (row[columnIndex] == Space.WATER) {
+                    hasWater = true;
+                    
+                } else {
+                    hasAir = true;
+                }
+            }
+        }
+                
+        if (hasWater && hasAir) {
+            collectiveStatus[0] = 3;
+        } 
+        else if (!hasWater && hasAir) {
+            collectiveStatus[0] = 2;
+        }
+        else if (hasWater && !hasAir) {
+            collectiveStatus[0] = 1;
+        }
+        
+        return collectiveStatus;
     }
     
     /**
