@@ -20,21 +20,17 @@ public class CheckSolution
      */
     public static int[] rowCounts(Aquarium p)
     {
-        int[] rows = new int[p.getSize()];
+        int[] rowsCounts = new int[p.getSize()];
+        Space[][] spaces = p.getSpaces();
         
-        for (int rowIndex = 0; rowIndex < p.getSize(); ++rowIndex) {
-            int waterSquares = 0;
-            
-            for (int colIndex = 0; colIndex < p.getSize(); ++colIndex) {
-                if(p.getSpaces()[rowIndex][colIndex] == Space.WATER){
-                    waterSquares += 1;
-                }
+        for (int row = 0; row < rowsCounts.length; ++row) {
+            for (Space cell : spaces[row]) {
+                if (cell == Space.WATER)
+                    rowsCounts[row]++;
             }
-            
-            rows[rowIndex] = waterSquares; 
         }
         
-        return rows;
+        return rowsCounts;
     }
     
     /**
@@ -42,21 +38,17 @@ public class CheckSolution
      */
     public static int[] columnCounts(Aquarium p)
     {
-        int[] columns = new int[p.getSize()];
+        int[] columnCounts = new int[p.getSize()];
+        Space[][] spaces = p.getSpaces();
         
-        for (int colIndex = 0; colIndex < p.getSize(); ++colIndex) {
-            int waterSquares = 0;
-            
-            for (int rowIndex = 0; rowIndex < p.getSize(); ++rowIndex) {
-                if(p.getSpaces()[rowIndex][colIndex] == Space.WATER){
-                    waterSquares += 1;
-                }
+        for (int row = 0; row < columnCounts.length; ++row) {
+            for (int col = 0; col < columnCounts.length; ++col) {
+                if (spaces[row][col] == Space.WATER)
+                    columnCounts[col]++;
             }
-            
-            columns[colIndex] = waterSquares; 
         }
         
-        return columns;
+        return columnCounts;
     }
     
     /**
@@ -71,41 +63,36 @@ public class CheckSolution
      */
     public static int[] rowStatus(Aquarium p, int t, int r)
     {
-        int[] status = new int[2];
-        boolean noSpaces = true;
-        boolean allWater = true;
-        boolean allNotWater = true;
-        int c = -1;
+        Space[] row = p.getSpaces()[r];
         
-        for (int colIndex = 0; colIndex < p.getSize(); ++colIndex) {
-            
-            if(p.getAquariums()[r][colIndex] == t){
-                noSpaces = false;
-                c = colIndex;
-                
-                if(p.getSpaces()[r][colIndex] != Space.WATER){
-                    allWater = false;
-                }
-                
-                if(p.getSpaces()[r][colIndex] == Space.WATER){
-                    allNotWater = false;
+        boolean exists = false;
+        boolean hasWater = false;
+        boolean hasAir = false;
+        int[] collectiveStatus = { 0, -1 };
+        for (int columnIndex = 0; columnIndex < row.length; columnIndex++) {
+            if (p.getAquariums()[r][columnIndex] == t){
+                exists = true;
+                collectiveStatus[1] = columnIndex;
+                if (row[columnIndex] == Space.WATER) {
+                    hasWater = true;
+                    
+                } else {
+                    hasAir = true;
                 }
             }
         }
-        
-        if(noSpaces){
-            status[0] = 0;
-        } else if(!allWater && !allNotWater){
-            status[0] = 3;
-        } else if(allNotWater){
-            status[0] = 2;
-        } else if(allWater){
-            status[0] = 1;
-        }
-     
-        status[1] = c;
                 
-        return status;
+        if (hasWater && hasAir) {
+            collectiveStatus[0] = 3;
+        } 
+        else if (!hasWater && hasAir) {
+            collectiveStatus[0] = 2;
+        }
+        else if (hasWater && !hasAir) {
+            collectiveStatus[0] = 1;
+        }
+        
+        return collectiveStatus;
     }
     
     /**
@@ -117,8 +104,24 @@ public class CheckSolution
      */
     public static String isAquariumOK(Aquarium p, int t)
     {
-        // TODO 19
-        return null;
+        boolean allWater = false;
+        
+        for (int row = 0; row < p.getSize(); row++)
+        {
+            int[] status = rowStatus(p, t, row);
+            
+            if (status[0] == 1){
+                allWater = true;
+            }
+            else if (status[0] == 2 && allWater) {
+                return row + "," + status[1];
+            }
+            else if (status[0] != 0 && status[0] != 1 && status[0] != 2) {
+                return row + "," + status[1];
+            }
+        }
+        
+        return "";
     }
     
     /**
