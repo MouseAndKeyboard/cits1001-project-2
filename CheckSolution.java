@@ -134,7 +134,24 @@ public class CheckSolution
      */
     public static String isSolution(Aquarium p)
     {
-        // TODO 20
-        return null;
+        int size = p.getSize();
+        String tick = "\u2713";
+        for (int col = 0; col < size; ++col) {
+            for (int row = 0; row < size; ++row) {
+                if (p.getRowTotals()[row] != rowCounts(p)[row]){
+                    return "Row " + row + " is wrong";
+                }
+                
+                if (p.getColumnTotals()[col] != columnCounts(p)[col]) {
+                    return "Column " + col + " is wrong";
+                }
+
+                if (!isAquariumOK(p, p.getAquariums()[row][col]).isEmpty()){
+                    return "The aquarium at " + row + "," + col + " is wrong";
+                }
+            }
+        }
+        
+        return tick + tick + tick;
     }
 }
