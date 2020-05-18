@@ -1,4 +1,5 @@
 
+    
 /**
  * CheckSolution is a utility class which can check if
  * a board position in an Aquarium puzzle is a solution.
