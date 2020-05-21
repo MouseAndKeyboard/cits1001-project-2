@@ -11,7 +11,7 @@ import javax.swing.SwingUtilities;
 
 public class AquariumViewer implements MouseListener
 {
-    private final int BOXSIZE = 80;          // the size of each square
+    private final int BOXSIZE = 40;          // the size of each square
     private final int OFFSET  = BOXSIZE * 2; // the gap around the board
     private       int WINDOWSIZE;            // set this in the constructor 
 
@@ -229,8 +229,8 @@ public class AquariumViewer implements MouseListener
     {
         Space space = puzzle.getSpaces()[r][c];
 
-        int x = OFFSET + r * BOXSIZE;
-        int y = OFFSET + c * BOXSIZE;
+        int y = OFFSET + r * BOXSIZE;
+        int x = OFFSET + c * BOXSIZE;
 
         Color col = Color.white;
         switch(space) {
@@ -260,15 +260,15 @@ public class AquariumViewer implements MouseListener
 
         if (x > OFFSET && y > OFFSET && x < WINDOWSIZE - OFFSET && y < WINDOWSIZE - OFFSET) {
             // We're in the grid
-            int yCell = (y - OFFSET) / BOXSIZE;
-            int xCell = (x - OFFSET) / BOXSIZE;
+            int row = (y - OFFSET) / BOXSIZE;
+            int col = (x - OFFSET) / BOXSIZE;
 
             switch(e.getButton()) {
                 case 1:
-                puzzle.leftClick(xCell, yCell);
+                puzzle.leftClick(row, col);
                 break;
                 case 3:
-                puzzle.rightClick(xCell, yCell);
+                puzzle.rightClick(row, col);
                 break;
                 default:
                 break;

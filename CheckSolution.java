@@ -25,8 +25,8 @@ public class CheckSolution
         Space[][] spaces = p.getSpaces();
         
         for (int row = 0; row < rowsCounts.length; ++row) {
-            for (Space cell : spaces[row]) {
-                if (cell == Space.WATER)
+            for (Space space : spaces[row]) {
+                if (space == Space.WATER)
                     rowsCounts[row]++;
             }
         }
