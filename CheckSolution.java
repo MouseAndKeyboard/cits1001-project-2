@@ -117,7 +117,7 @@ public class CheckSolution
             else if (status[0] == 2 && allWater) {
                 return row + "," + status[1];
             }
-            else if (status[0] != 0 && status[0] != 1 && status[0] != 2) {
+            else if (status[0] == 3) {
                 return row + "," + status[1];
             }
         }
