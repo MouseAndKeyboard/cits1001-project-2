@@ -189,6 +189,18 @@ public class AquariumViewer implements MouseListener
         }
     }
 
+    private void displayButton(String text, int x1, int y1, int x2, int y2, Color colour) {
+        sc.drawRectangle(x1, y1, x2, y2, colour);
+        int buttonWidth = x2 - x1;
+        int buttonHeight = y2 - y1;
+        
+        Font oldFont = sc.getFont();
+        Font buttonFont = oldFont.deriveFont(Font.BOLD, oldFont.getSize());
+        sc.setFont(buttonFont);
+        sc.drawString(text, x1 + (buttonWidth / 4), y1 + (buttonHeight / 2), Color.black);
+        sc.setFont(oldFont);
+    }
+    
     /**
      * Displays the buttons below the grid.
      */
@@ -210,15 +222,12 @@ public class AquariumViewer implements MouseListener
         // Solved?? button
         solvedButtonX1 = buttonContainerLeft;
         solvedButtonX2 = buttonContainerLeft + buttonWidth;
-
-        sc.drawRectangle(solvedButtonX1, buttonContainerY1, solvedButtonX2, buttonContainerY2, Color.red);
-        sc.drawString("Solved?", solvedButtonX1 + (buttonWidth / 4), buttonContainerY1 - (buttonContainerHeight / 2), Color.black);
-
+        displayButton("Solved?", solvedButtonX1, buttonContainerY1, solvedButtonX2, buttonContainerY2, Color.red);
+        
         // reset button
         resetButtonX1 = solvedButtonX2 + buttonGap;
         resetButtonX2 = resetButtonX1 + buttonWidth;
-        sc.drawRectangle(resetButtonX1, buttonContainerY1, resetButtonX2, buttonContainerY2, Color.blue);
-        sc.drawString("Clear", resetButtonX1 + (buttonWidth / 4), buttonContainerY1 - (buttonContainerHeight / 2), Color.black);
+        displayButton("Clear", resetButtonX1, buttonContainerY1, resetButtonX2, buttonContainerY2, Color.blue);
     }
 
     /**
@@ -277,7 +286,7 @@ public class AquariumViewer implements MouseListener
         else if (y > buttonContainerY1 && y < buttonContainerY2) {
 
             if (x > solvedButtonX1 && x < solvedButtonX2) {
-
+                
             }
             else if (x > resetButtonX1 && x < resetButtonX2) {
                 puzzle.clear();
