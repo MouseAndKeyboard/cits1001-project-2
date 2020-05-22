@@ -37,12 +37,15 @@ public class Aquarium
         
         spaces = new Space[size][size];
         aquariums = new int[size][size];
-        for (int lineNumber = 3; lineNumber < lines.size(); ++lineNumber) {
-            aquariums[lineNumber - 3] = parseLine(lines.get(lineNumber));
+        
+        int skipLines = 3;
+        
+        for (int lineNumber = skipLines; lineNumber < lines.size(); ++lineNumber) {
+            aquariums[lineNumber - skipLines] = parseLine(lines.get(lineNumber));
             
             Space[] spaceRow = new Space[size];
             Arrays.fill(spaceRow, Space.EMPTY);
-            spaces[lineNumber - 3] = spaceRow;
+            spaces[lineNumber - skipLines] = spaceRow;
         }
     }
     
