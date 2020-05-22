@@ -53,7 +53,9 @@ public class AquariumViewer implements MouseListener
         sc = new SimpleCanvas("Aquarium Game", WINDOWSIZE, WINDOWSIZE, bgColour);
         sc.addMouseListener(this);
         
-        Font primaryFont = new Font("Arial", Font.BOLD, BOXSIZE / 3);
+        int fontScaleFactor = 3;
+        Font primaryFont = new Font("Arial", Font.BOLD, BOXSIZE / fontScaleFactor);
+        
         sc.setFont(primaryFont);
         
         displayPuzzle();
@@ -150,10 +152,14 @@ public class AquariumViewer implements MouseListener
      */
     public void displayNumbers()
     {
+        // Values define the distance from the border the numbers appear
+        int columnNumberSpacer = 10;
+        int rowNumberSpacer = 20;
+        
         int[] columnCounts = CheckSolution.columnCounts(puzzle);
         for (int column = 0; column < size; ++column) {
             int x = OFFSET + BOXSIZE * column + BOXSIZE / 2;
-            int y = OFFSET - 10;
+            int y = OFFSET - columnNumberSpacer;
             
             int desiredColumnCount = puzzle.getColumnTotals()[column];
             Color c;
@@ -165,7 +171,7 @@ public class AquariumViewer implements MouseListener
 
         int[] rowCounts = CheckSolution.rowCounts(puzzle);
         for (int row = 0; row < size; ++row) {
-            int x = OFFSET - 20;
+            int x = OFFSET - rowNumberSpacer;
             int y = OFFSET + BOXSIZE * row + BOXSIZE / 2;
             
             int desiredRowCount = puzzle.getRowTotals()[row];
@@ -245,7 +251,9 @@ public class AquariumViewer implements MouseListener
         solvedButtonX2 = buttonContainerLeft + buttonWidth;
         displayButton("SOLVED?", solvedButtonX1, buttonContainerY1, solvedButtonX2, buttonContainerY2, solvedButtonColour);
         
-        sc.drawString(lastSolvedStatus, solvedButtonX1, buttonContainerY2 + 15, textColour);
+        int solvedStatusSpacer = 15;
+        
+        sc.drawString(lastSolvedStatus, solvedButtonX1, buttonContainerY2 + solvedStatusSpacer, textColour);
         
         // reset button
         resetButtonX1 = solvedButtonX2 + buttonGap;
