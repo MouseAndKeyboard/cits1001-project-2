@@ -52,9 +52,8 @@ public class AquariumViewer implements MouseListener
         sc = new SimpleCanvas("Aquarium Game", WINDOWSIZE, WINDOWSIZE, bgColour);
         sc.addMouseListener(this);
         
-        Font oldFont = sc.getFont();
-        Font boldFont = oldFont.deriveFont(Font.BOLD, oldFont.getSize());
-        sc.setFont(boldFont);
+        Font primaryFont = new Font("Arial", Font.BOLD, BOXSIZE / 3);
+        sc.setFont(primaryFont);
         
         displayPuzzle();
     }
@@ -229,14 +228,14 @@ public class AquariumViewer implements MouseListener
         // Solved?? button
         solvedButtonX1 = buttonContainerLeft;
         solvedButtonX2 = buttonContainerLeft + buttonWidth;
-        displayButton("Solved?", solvedButtonX1, buttonContainerY1, solvedButtonX2, buttonContainerY2, solvedButtonColour);
+        displayButton("SOLVED?", solvedButtonX1, buttonContainerY1, solvedButtonX2, buttonContainerY2, solvedButtonColour);
         
         sc.drawString(lastSolvedStatus, solvedButtonX1, buttonContainerY2 + 15, textColour);
         
         // reset button
         resetButtonX1 = solvedButtonX2 + buttonGap;
         resetButtonX2 = resetButtonX1 + buttonWidth;
-        displayButton("Clear", resetButtonX1, buttonContainerY1, resetButtonX2, buttonContainerY2, resetButtonColour);
+        displayButton("CLEAR", resetButtonX1, buttonContainerY1, resetButtonX2, buttonContainerY2, resetButtonColour);
     }
 
     /**
