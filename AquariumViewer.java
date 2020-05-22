@@ -30,7 +30,8 @@ public class AquariumViewer implements MouseListener
 
     private Color bgColour = Color.white;
     private Color gridColour = Color.black;
-    private Color axisNumberColour = Color.black;
+    private Color incorrectNumberColour = Color.red;
+    private Color correctNumberColour = Color.green;
     private Color aquariumColour = Color.red;
     private Color solvedButtonColour = Color.red;
     private Color resetButtonColour = Color.blue;
@@ -149,16 +150,30 @@ public class AquariumViewer implements MouseListener
      */
     public void displayNumbers()
     {
+        int[] columnCounts = CheckSolution.columnCounts(puzzle);
         for (int column = 0; column < size; ++column) {
             int x = OFFSET + BOXSIZE * column + BOXSIZE / 2;
             int y = OFFSET - 10;
-            sc.drawString(puzzle.getColumnTotals()[column], x, y, axisNumberColour);
+            
+            int desiredColumnCount = puzzle.getColumnTotals()[column];
+            Color c;
+            if (desiredColumnCount != columnCounts[column])  c = incorrectNumberColour;
+            else                                             c = correctNumberColour;
+                
+            sc.drawString(desiredColumnCount, x, y, c);
         }
 
+        int[] rowCounts = CheckSolution.rowCounts(puzzle);
         for (int row = 0; row < size; ++row) {
             int x = OFFSET - 20;
             int y = OFFSET + BOXSIZE * row + BOXSIZE / 2;
-            sc.drawString(puzzle.getRowTotals()[row], x, y, axisNumberColour);
+            
+            int desiredRowCount = puzzle.getRowTotals()[row];
+            Color c;
+            if (desiredRowCount != rowCounts[row])  c = incorrectNumberColour;
+            else                                    c = correctNumberColour;
+            
+            sc.drawString(puzzle.getRowTotals()[row], x, y, c);
         }
     }
     
