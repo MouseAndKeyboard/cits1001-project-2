@@ -28,6 +28,15 @@ public class AquariumViewer implements MouseListener
     private int        resetButtonX1;
     private int        resetButtonX2;
 
+    private Color bgColour = Color.white;
+    private Color gridColour = Color.black;
+    private Color axisNumberColour = Color.black;
+    private Color aquariumColour = Color.red;
+    private Color solvedButtonColour = Color.red;
+    private Color resetButtonColour = Color.blue;
+    private Color waterColour = Color.cyan;
+    private Color airColour = Color.pink;
+    private Color textColour = Color.black;
         
     /**
      * Main constructor for objects of class AquariumViewer.
@@ -40,7 +49,7 @@ public class AquariumViewer implements MouseListener
         size = puzzle.getSize();
         WINDOWSIZE = size * BOXSIZE + 2*OFFSET;
         
-        sc = new SimpleCanvas("Aquarium Game", WINDOWSIZE, WINDOWSIZE, Color.white);
+        sc = new SimpleCanvas("Aquarium Game", WINDOWSIZE, WINDOWSIZE, bgColour);
         sc.addMouseListener(this);
         
         Font oldFont = sc.getFont();
@@ -96,7 +105,7 @@ public class AquariumViewer implements MouseListener
      */
     private void displayPuzzle()
     {
-        sc.drawRectangle(0, 0, WINDOWSIZE, WINDOWSIZE, Color.white);
+        sc.drawRectangle(0, 0, WINDOWSIZE, WINDOWSIZE, bgColour);
         
         for (int r = 0; r < size; ++r) {
             for (int c = 0; c < size; ++c) {
@@ -121,7 +130,7 @@ public class AquariumViewer implements MouseListener
             int xEnd = xBegin;
             int yEnd = WINDOWSIZE - OFFSET;
 
-            sc.drawLine(xBegin, yBegin, xEnd, yEnd, Color.black);
+            sc.drawLine(xBegin, yBegin, xEnd, yEnd, gridColour);
         }
 
         for (int row = 0; row < size + 1; ++row) {
@@ -132,7 +141,7 @@ public class AquariumViewer implements MouseListener
             int xEnd = WINDOWSIZE - OFFSET;
             int yEnd = yBegin;
 
-            sc.drawLine(xBegin, yBegin, xEnd, yEnd, Color.black);
+            sc.drawLine(xBegin, yBegin, xEnd, yEnd, gridColour);
         }
     }
 
@@ -144,13 +153,13 @@ public class AquariumViewer implements MouseListener
         for (int column = 0; column < size; ++column) {
             int x = OFFSET + BOXSIZE * column + BOXSIZE / 2;
             int y = OFFSET - 10;
-            sc.drawString(puzzle.getColumnTotals()[column], x, y, Color.black);
+            sc.drawString(puzzle.getColumnTotals()[column], x, y, axisNumberColour);
         }
 
         for (int row = 0; row < size; ++row) {
             int x = OFFSET - 20;
             int y = OFFSET + BOXSIZE * row + BOXSIZE / 2;
-            sc.drawString(puzzle.getRowTotals()[row], x, y, Color.black);
+            sc.drawString(puzzle.getRowTotals()[row], x, y, axisNumberColour);
         }
     }
     
@@ -170,27 +179,24 @@ public class AquariumViewer implements MouseListener
     {
         int[][] aquariums = puzzle.getAquariums();
 
-        drawLineAsRectangle(OFFSET, OFFSET, OFFSET, WINDOWSIZE - OFFSET, 4, Color.red);
-        drawLineAsRectangle(OFFSET, OFFSET, WINDOWSIZE - OFFSET, OFFSET, 4, Color.red);
-        drawLineAsRectangle(WINDOWSIZE - OFFSET, OFFSET, WINDOWSIZE - OFFSET, WINDOWSIZE - OFFSET, 4, Color.red);
-        drawLineAsRectangle(OFFSET, WINDOWSIZE - OFFSET, WINDOWSIZE - OFFSET, WINDOWSIZE - OFFSET, 4, Color.red);
+        drawLineAsRectangle(OFFSET, OFFSET, OFFSET, WINDOWSIZE - OFFSET, 4, aquariumColour);
+        drawLineAsRectangle(OFFSET, OFFSET, WINDOWSIZE - OFFSET, OFFSET, 4, aquariumColour);
+        drawLineAsRectangle(WINDOWSIZE - OFFSET, OFFSET, WINDOWSIZE - OFFSET, WINDOWSIZE - OFFSET, 4, aquariumColour);
+        drawLineAsRectangle(OFFSET, WINDOWSIZE - OFFSET, WINDOWSIZE - OFFSET, WINDOWSIZE - OFFSET, 4, aquariumColour);
         
         for (int row = 0; row < aquariums.length; ++row) {
             for (int column = 0; column < aquariums.length; ++column) {
-                
                 if (column + 1 < size) {
                     
                     if (aquariums[row][column + 1] != aquariums[row][column])
-                        drawLineAsRectangle(OFFSET + (column + 1) * BOXSIZE, OFFSET + row * BOXSIZE, OFFSET + (column + 1) * BOXSIZE, OFFSET + (row + 1) * BOXSIZE, 4, Color.red);
+                        drawLineAsRectangle(OFFSET + (column + 1) * BOXSIZE, OFFSET + row * BOXSIZE, OFFSET + (column + 1) * BOXSIZE, OFFSET + (row + 1) * BOXSIZE, 4, aquariumColour);
                     
                 }    
                 
                 if (row + 1 < size) {
                     if (aquariums[row + 1][column] != aquariums[row][column])
-                        drawLineAsRectangle(OFFSET + column * BOXSIZE, OFFSET + (row + 1) * BOXSIZE, OFFSET + (column + 1) * BOXSIZE, OFFSET + (row + 1) * BOXSIZE, 4, Color.red);
+                        drawLineAsRectangle(OFFSET + column * BOXSIZE, OFFSET + (row + 1) * BOXSIZE, OFFSET + (column + 1) * BOXSIZE, OFFSET + (row + 1) * BOXSIZE, 4, aquariumColour);
                 }
-                    
-                sc.drawString(aquariums[row][column], OFFSET + BOXSIZE * column + BOXSIZE / 2, OFFSET + BOXSIZE * row + BOXSIZE / 2, Color.black);
             } 
         }
     }
@@ -199,7 +205,7 @@ public class AquariumViewer implements MouseListener
         sc.drawRectangle(x1, y1, x2, y2, colour);
         int buttonWidth = x2 - x1;
         int buttonHeight = y2 - y1;
-        sc.drawString(text, x1 + (buttonWidth / 4), y1 + (buttonHeight / 2), Color.black);
+        sc.drawString(text, x1 + (buttonWidth / 4), y1 + (buttonHeight / 2), textColour);
     }
     
     /**
@@ -223,14 +229,14 @@ public class AquariumViewer implements MouseListener
         // Solved?? button
         solvedButtonX1 = buttonContainerLeft;
         solvedButtonX2 = buttonContainerLeft + buttonWidth;
-        displayButton("Solved?", solvedButtonX1, buttonContainerY1, solvedButtonX2, buttonContainerY2, Color.red);
+        displayButton("Solved?", solvedButtonX1, buttonContainerY1, solvedButtonX2, buttonContainerY2, solvedButtonColour);
         
-        sc.drawString(lastSolvedStatus, solvedButtonX1, buttonContainerY2 + 15, Color.black);
+        sc.drawString(lastSolvedStatus, solvedButtonX1, buttonContainerY2 + 15, textColour);
         
         // reset button
         resetButtonX1 = solvedButtonX2 + buttonGap;
         resetButtonX2 = resetButtonX1 + buttonWidth;
-        displayButton("Clear", resetButtonX1, buttonContainerY1, resetButtonX2, buttonContainerY2, Color.blue);
+        displayButton("Clear", resetButtonX1, buttonContainerY1, resetButtonX2, buttonContainerY2, resetButtonColour);
     }
 
     /**
@@ -244,19 +250,19 @@ public class AquariumViewer implements MouseListener
         int y = OFFSET + r * BOXSIZE;
         int x = OFFSET + c * BOXSIZE;
 
-        Color col = Color.white;
+        Color colour = bgColour;
         switch(space) {
             case WATER:
-            col = Color.blue;
+            colour = waterColour;
             break;
             case AIR:
-            col = Color.red;
+            colour = airColour;
             break;
             case EMPTY:
-            col = Color.white;
+            colour = bgColour;
             break;
         }
-        sc.drawRectangle(x, y, x + BOXSIZE, y + BOXSIZE, col);
+        sc.drawRectangle(x, y, x + BOXSIZE, y + BOXSIZE, colour);
     }
 
     /**
