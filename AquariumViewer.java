@@ -249,20 +249,18 @@ public class AquariumViewer implements MouseListener
 
         int y = OFFSET + r * BOXSIZE;
         int x = OFFSET + c * BOXSIZE;
-
-        Color colour = bgColour;
+        
         switch(space) {
             case WATER:
-            colour = waterColour;
+            sc.drawRectangle(x, y, x + BOXSIZE, y + BOXSIZE, waterColour);
             break;
             case AIR:
-            colour = airColour;
+            sc.drawCircle(x + BOXSIZE/2 , y + BOXSIZE/2, BOXSIZE/4, airColour);
             break;
             case EMPTY:
-            colour = bgColour;
+            sc.drawRectangle(x, y, x + BOXSIZE, y + BOXSIZE, bgColour);
             break;
         }
-        sc.drawRectangle(x, y, x + BOXSIZE, y + BOXSIZE, colour);
     }
 
     /**
@@ -281,16 +279,8 @@ public class AquariumViewer implements MouseListener
             int row = (y - OFFSET) / BOXSIZE;
             int col = (x - OFFSET) / BOXSIZE;
 
-            switch(e.getButton()) {
-                case 1:
-                puzzle.leftClick(row, col);
-                break;
-                case 3:
-                puzzle.rightClick(row, col);
-                break;
-                default:
-                break;
-            }
+            if (e.getButton() == 1) puzzle.leftClick(row, col);
+            else if (e.getButton() == 3) puzzle.rightClick(row, col);
         }
         else if (y > buttonContainerY1 && y < buttonContainerY2) {
 
