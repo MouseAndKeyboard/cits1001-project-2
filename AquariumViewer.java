@@ -11,7 +11,8 @@ import javax.swing.SwingUtilities;
 
 public class AquariumViewer implements MouseListener
 {
-    private final int BOXSIZE = 40;          // the size of each square
+    // ALL UI scaling is relative to BOXSIZE
+    private final int BOXSIZE =80;          // the size of each square
     private final int OFFSET  = BOXSIZE * 2; // the gap around the board
      
     private       int WINDOWSIZE;            // set this in the constructor 
@@ -37,14 +38,15 @@ public class AquariumViewer implements MouseListener
     private Color gridColour = Color.black;
     private Color incorrectNumberColour = Color.red;
     private Color correctNumberColour = Color.green;
-    private Color aquariumColour = Color.red;
+    private Color aquariumBadColour = Color.red;
+    private Color aquariumGoodColour = Color.green;
     private Color solvedButtonColour = Color.red;
     private Color resetButtonColour = Color.blue;
     private Color waterColour = Color.cyan;
     private Color airColour = Color.pink;
     private Color textColour = Color.black;
     
-    private int aquariumBorderWidth = 4;
+    private final int aquariumBorderWidth = BOXSIZE/10;
     
     /**
      * Main constructor for objects of class AquariumViewer.
@@ -61,10 +63,8 @@ public class AquariumViewer implements MouseListener
         sc = new SimpleCanvas("Aquarium Game", WINDOWSIZE, WINDOWSIZE, bgColour);
         sc.addMouseListener(this);
         
-        int fontScaleFactor = 3;
-        Font primaryFont = new Font("Arial", Font.BOLD, BOXSIZE / fontScaleFactor);
-        
-        sc.setFont(primaryFont);
+        int fontScaleFactor = 3;        
+        sc.setFont(new Font("Arial", Font.BOLD, BOXSIZE / fontScaleFactor));
         
         displayPuzzle();
     }
@@ -195,9 +195,12 @@ public class AquariumViewer implements MouseListener
     /**
      * Displays a horizontal or vertical line (won't work with slanted lines) with a fixed width w.
      */
-    public void drawLineAsRectangle(int x1, int y1, int x2, int y2, int width, Color c)
+    public void drawLineAsRectangle(int x1, int y1, int x2, int y2, int width, Color c, boolean vertical)
     {   
-        sc.drawRectangle(x1 - width / 2, y1 - width / 2, x2 + width / 2, y2 + width / 2, c);
+        if (vertical)
+            sc.drawRectangle(x1 - width / 2, y1, x2 + width / 2, y2, c);
+        else
+            sc.drawRectangle(x1, y1 - width / 2, x2, y2  + width / 2, c);
     }
     
     /**
@@ -207,29 +210,107 @@ public class AquariumViewer implements MouseListener
     {
         int[][] aquariums = puzzle.getAquariums();
 
-        drawLineAsRectangle(OFFSET,     OFFSET,     OFFSET,    FAROFFSET, 4, aquariumColour); // Top
-        drawLineAsRectangle(OFFSET,     OFFSET,     FAROFFSET, OFFSET,    4, aquariumColour); // Left
-        drawLineAsRectangle(FAROFFSET,  OFFSET,     FAROFFSET, FAROFFSET, 4, aquariumColour); // Right
-        drawLineAsRectangle(OFFSET,     FAROFFSET,  FAROFFSET, FAROFFSET, 4, aquariumColour); // Bottom
+        // drawLineAsRectangle(OFFSET,     OFFSET,     OFFSET,    FAROFFSET, aquariumBorderWidth, aquariumColour); // Top
+        // drawLineAsRectangle(OFFSET,     OFFSET,     FAROFFSET, OFFSET,    aquariumBorderWidth, aquariumColour); // Left
+        // drawLineAsRectangle(FAROFFSET,  OFFSET,     FAROFFSET, FAROFFSET, aquariumBorderWidth, aquariumColour); // Right
+        // drawLineAsRectangle(OFFSET,     FAROFFSET,  FAROFFSET, FAROFFSET, aquariumBorderWidth, aquariumColour); // Bottom
         
         for (int row = 0; row < aquariums.length; ++row) {
             for (int column = 0; column < aquariums.length; ++column) {
-                if (column + 1 < size && 
-                    aquariums[row][column + 1] != aquariums[row][column]) {
+                
+                Color borderColour;
+                if (CheckSolution.isAquariumOK(puzzle, aquariums[row][column]).isEmpty())
+                    borderColour = aquariumGoodColour;
+                else
+                    borderColour = aquariumBadColour;
+                    
+               
+                // Right
+                if (column + 1 == size || 
+                    aquariums[row][column] != aquariums[row][column + 1]) {
                         int x1 = OFFSET + (column + 1) * BOXSIZE;
                         int y1 = OFFSET + row * BOXSIZE;
                         int x2 = OFFSET + (column + 1) * BOXSIZE;
                         int y2 = OFFSET + (row + 1) * BOXSIZE;
-                        drawLineAsRectangle(x1, y1, x2, y2, aquariumBorderWidth, aquariumColour);
-                }    
-                if (row + 1 < size && 
-                    aquariums[row + 1][column] != aquariums[row][column]) {
+                        int thisBorderWidth = aquariumBorderWidth;
+                        if (column + 1 != size) {
+                            x1 -= aquariumBorderWidth / 4;
+                            x2 = x1;
+                            thisBorderWidth = aquariumBorderWidth / 2;
+                        } 
+                        
+                        drawLineAsRectangle(x1, y1, x2, y2, thisBorderWidth, borderColour, true);
+                }
+                
+                // Up
+                if (row == 0 || 
+                    aquariums[row][column] != aquariums[row - 1][column]) {
+                        
+                        int x1 = OFFSET + column * BOXSIZE;
+                        int y1 = OFFSET + row * BOXSIZE;
+                        int x2 = OFFSET + (column + 1) * BOXSIZE;
+                        int y2 = OFFSET + row * BOXSIZE;
+                        int thisBorderWidth = aquariumBorderWidth;
+                        if (row != 0) {
+                            y1 += aquariumBorderWidth / 4;
+                            y2 = y1;
+                            thisBorderWidth = aquariumBorderWidth / 2;
+                        } 
+                        
+                        drawLineAsRectangle(x1, y1, x2, y2, thisBorderWidth, borderColour, false);
+                }
+                
+                // Left
+                if (column == 0 || 
+                    aquariums[row][column] != aquariums[row][column - 1]) {
+                        int x1 = OFFSET + column * BOXSIZE;
+                        int y1 = OFFSET + row * BOXSIZE;
+                        int x2 = OFFSET + column * BOXSIZE;
+                        int y2 = OFFSET + (row + 1) * BOXSIZE;
+                        int thisBorderWidth = aquariumBorderWidth;
+                        if (column != 0) {
+                            x1 += aquariumBorderWidth / 4;
+                            x2 = x1;
+                            thisBorderWidth = aquariumBorderWidth / 2;
+                        } 
+                        
+                        drawLineAsRectangle(x1, y1, x2, y2, thisBorderWidth, borderColour, true);
+                }
+                
+                // Down
+                if (row + 1 == size || 
+                    aquariums[row][column] != aquariums[row + 1][column]) {
                         int x1 = OFFSET + column * BOXSIZE;
                         int y1 = OFFSET + (row + 1) * BOXSIZE;
                         int x2 = OFFSET + (column + 1) * BOXSIZE;
                         int y2 = OFFSET + (row + 1) * BOXSIZE;
-                        drawLineAsRectangle(x1, y1, x2, y2, aquariumBorderWidth, aquariumColour);
+                        int thisBorderWidth = aquariumBorderWidth;
+                        if (row + 1 != size) {
+                            y1 -= aquariumBorderWidth / 4;
+                            y2 = y1;
+                            thisBorderWidth = aquariumBorderWidth / 2;
+                        } 
+                        
+                        drawLineAsRectangle(x1, y1, x2, y2, thisBorderWidth, borderColour, false);
                 }
+                
+                
+                // if (column + 1 < size && 
+                    // aquariums[row][column + 1] != aquariums[row][column]) {
+                        // int x1 = OFFSET + (column + 1) * BOXSIZE;
+                        // int y1 = OFFSET + row * BOXSIZE;
+                        // int x2 = OFFSET + (column + 1) * BOXSIZE;
+                        // int y2 = OFFSET + (row + 1) * BOXSIZE;
+                        // drawLineAsRectangle(x1, y1, x2, y2, aquariumBorderWidth, aquariumColour);
+                // }    
+                // if (row + 1 < size && 
+                    // aquariums[row + 1][column] != aquariums[row][column]) {
+                        // int x1 = OFFSET + column * BOXSIZE;
+                        // int y1 = OFFSET + (row + 1) * BOXSIZE;
+                        // int x2 = OFFSET + (column + 1) * BOXSIZE;
+                        // int y2 = OFFSET + (row + 1) * BOXSIZE;
+                        // drawLineAsRectangle(x1, y1, x2, y2, aquariumBorderWidth, aquariumColour);
+                // }
             } 
         }
     }
