@@ -209,11 +209,6 @@ public class AquariumViewer implements MouseListener
     public void displayAquariums()
     {
         int[][] aquariums = puzzle.getAquariums();
-
-        // drawLineAsRectangle(OFFSET,     OFFSET,     OFFSET,    FAROFFSET, aquariumBorderWidth, aquariumColour); // Top
-        // drawLineAsRectangle(OFFSET,     OFFSET,     FAROFFSET, OFFSET,    aquariumBorderWidth, aquariumColour); // Left
-        // drawLineAsRectangle(FAROFFSET,  OFFSET,     FAROFFSET, FAROFFSET, aquariumBorderWidth, aquariumColour); // Right
-        // drawLineAsRectangle(OFFSET,     FAROFFSET,  FAROFFSET, FAROFFSET, aquariumBorderWidth, aquariumColour); // Bottom
         
         for (int row = 0; row < aquariums.length; ++row) {
             for (int column = 0; column < aquariums.length; ++column) {
@@ -293,24 +288,6 @@ public class AquariumViewer implements MouseListener
                         
                         drawLineAsRectangle(x1, y1, x2, y2, thisBorderWidth, borderColour, false);
                 }
-                
-                
-                // if (column + 1 < size && 
-                    // aquariums[row][column + 1] != aquariums[row][column]) {
-                        // int x1 = OFFSET + (column + 1) * BOXSIZE;
-                        // int y1 = OFFSET + row * BOXSIZE;
-                        // int x2 = OFFSET + (column + 1) * BOXSIZE;
-                        // int y2 = OFFSET + (row + 1) * BOXSIZE;
-                        // drawLineAsRectangle(x1, y1, x2, y2, aquariumBorderWidth, aquariumColour);
-                // }    
-                // if (row + 1 < size && 
-                    // aquariums[row + 1][column] != aquariums[row][column]) {
-                        // int x1 = OFFSET + column * BOXSIZE;
-                        // int y1 = OFFSET + (row + 1) * BOXSIZE;
-                        // int x2 = OFFSET + (column + 1) * BOXSIZE;
-                        // int y2 = OFFSET + (row + 1) * BOXSIZE;
-                        // drawLineAsRectangle(x1, y1, x2, y2, aquariumBorderWidth, aquariumColour);
-                // }
             } 
         }
     }
