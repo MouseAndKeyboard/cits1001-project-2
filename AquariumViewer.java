@@ -12,8 +12,9 @@ import javax.swing.SwingUtilities;
 public class AquariumViewer implements MouseListener
 {
     // ALL UI scaling is relative to BOXSIZE [UI looks best when it's a multiple of 40]
-    private final int BOXSIZE = 40;          // the size of each square 
+    private final int BOXSIZE = 80;          // the size of each square 
     private final int OFFSET  = BOXSIZE * 2; // the gap around the board
+    private final int aquariumBorderWidth = BOXSIZE/10;
      
     private       int WINDOWSIZE;            // set this in the constructor 
     private       int FAROFFSET; // Distance along an axis to get to the offset at the other end
@@ -45,8 +46,6 @@ public class AquariumViewer implements MouseListener
     private Color waterColour = Color.cyan;
     private Color airColour = Color.pink;
     private Color textColour = Color.black;
-    
-    private final int aquariumBorderWidth = BOXSIZE/10;
     
     /**
      * Main constructor for objects of class AquariumViewer.
@@ -133,25 +132,23 @@ public class AquariumViewer implements MouseListener
      */
     public void displayGrid()
     {
-        for (int column = 0; column < size + 1; ++column) {
-            int xBegin = OFFSET + BOXSIZE * column;
-            int yBegin = OFFSET;
+        for (int colrowIndex = 0; colrowIndex < size + 1; ++colrowIndex) {
+            int xColBegin = OFFSET + BOXSIZE * colrowIndex;
+            int yColBegin = OFFSET;
 
-            int xEnd = xBegin;
-            int yEnd = FAROFFSET;
+            int xColEnd = xColBegin;
+            int yColEnd = FAROFFSET;
 
-            sc.drawLine(xBegin, yBegin, xEnd, yEnd, gridColour);
-        }
+            sc.drawLine(xColBegin, yColBegin, xColEnd, yColEnd, gridColour);
+            
+            
+            int xRowBegin = OFFSET;
+            int yRowBegin = OFFSET + BOXSIZE * colrowIndex; // rows = column = size so OK to do
 
-        for (int row = 0; row < size + 1; ++row) {
+            int xRowEnd = FAROFFSET;
+            int yRowEnd = yRowBegin;
 
-            int xBegin = OFFSET;
-            int yBegin = OFFSET + BOXSIZE * row;
-
-            int xEnd = FAROFFSET;
-            int yEnd = yBegin;
-
-            sc.drawLine(xBegin, yBegin, xEnd, yEnd, gridColour);
+            sc.drawLine(xRowBegin, yRowBegin, xRowEnd, yRowEnd, gridColour);
         }
     }
 
@@ -160,9 +157,9 @@ public class AquariumViewer implements MouseListener
      */
     public void displayNumbers()
     {
-        // Values define the distance from the border the numbers appear
-        int columnNumberSpacer = 10;
-        int rowNumberSpacer = 20;
+        // Distance from the border of the grid that the numbers appear
+        int columnNumberSpacer = BOXSIZE/4;
+        int rowNumberSpacer = BOXSIZE/2;
         
         int[] columnCounts = CheckSolution.columnCounts(puzzle);
         for (int column = 0; column < size; ++column) {
@@ -218,8 +215,11 @@ public class AquariumViewer implements MouseListener
                     borderColour = aquariumGoodColour;
                 else
                     borderColour = aquariumBadColour;
-                    
                
+                // Note to marker:
+                //      Our aquariums have dynamic border colours depending on if they're valid.
+                //      We therefore have to render UP, DOWN, LEFT and RIGHT border of each aquarium independently.
+                
                 // Right
                 if (column + 1 == size || 
                     aquariums[row][column] != aquariums[row][column + 1]) {
@@ -311,7 +311,6 @@ public class AquariumViewer implements MouseListener
 
         int buttonWidth = (FAROFFSET - OFFSET - buttonGap) / 2;
 
-        // SOLVED? button
         solvedX1 = OFFSET;
         solvedY1 = buttonTop;
         solvedX2 = OFFSET + buttonWidth;
@@ -321,7 +320,6 @@ public class AquariumViewer implements MouseListener
         int solvedStatusSpacer = 15;
         sc.drawString(lastSolvedStatus, solvedX1, buttonBottom + solvedStatusSpacer, textColour);
         
-        // RESET button
         resetX1 = solvedX2 + buttonGap;
         resetY1 = buttonTop;
         resetX2 = resetX1 + buttonWidth;
