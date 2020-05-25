@@ -15,6 +15,7 @@ public class AquariumViewer implements MouseListener
     private final int BOXSIZE = 80;          // the size of each square 
     private final int OFFSET  = BOXSIZE * 2; // the gap around the board
     private final int aquariumBorderWidth = BOXSIZE/10;
+    private final int columnNumberSpacer = BOXSIZE/4;
      
     private       int WINDOWSIZE;            // set this in the constructor 
     private       int FAROFFSET; // Distance along an axis to get to the offset at the other end
@@ -34,6 +35,11 @@ public class AquariumViewer implements MouseListener
     private int resetY1;
     private int resetX2;
     private int resetY2;
+    
+    private int hintX1;
+    private int hintY1;
+    private int hintX2;
+    private int hintY2;
 
     private Color bgColour = Color.white;
     private Color gridColour = Color.black;
@@ -43,6 +49,7 @@ public class AquariumViewer implements MouseListener
     private Color aquariumGoodColour = Color.green;
     private Color solvedButtonColour = Color.red;
     private Color resetButtonColour = Color.blue;
+    private Color hintButtonColour = Color.yellow;
     private Color waterColour = Color.cyan;
     private Color airColour = Color.pink;
     private Color textColour = Color.black;
@@ -158,7 +165,6 @@ public class AquariumViewer implements MouseListener
     public void displayNumbers()
     {
         // Distance from the border of the grid that the numbers appear
-        int columnNumberSpacer = BOXSIZE/4;
         int rowNumberSpacer = BOXSIZE/2;
         
         int[] columnCounts = CheckSolution.columnCounts(puzzle);
@@ -325,6 +331,15 @@ public class AquariumViewer implements MouseListener
         resetX2 = resetX1 + buttonWidth;
         resetY2 = buttonBottom;
         displayButton("CLEAR", resetX1, resetY1, resetX2, resetY2, resetButtonColour);
+        
+        buttonTop = buttonGap;
+        buttonBottom = OFFSET - buttonGap - columnNumberSpacer;
+        
+        hintX1 = OFFSET;
+        hintY1 = buttonTop;
+        hintX2 = OFFSET + buttonWidth;
+        hintY2 = buttonBottom;
+        displayButton("HINT", hintX1, hintY1, hintX2, hintY2, hintButtonColour);
     }
 
     /**
@@ -376,6 +391,9 @@ public class AquariumViewer implements MouseListener
         else if (x > resetX1 && x < resetX2 && y > resetY1 && y < resetY2) {
             puzzle.clear();
             lastSolvedStatus = "";
+        }
+        else if (x > hintX1 && x < hintX2 && y > hintY1 && y < hintY2) {
+            
         }
         
         displayPuzzle();
