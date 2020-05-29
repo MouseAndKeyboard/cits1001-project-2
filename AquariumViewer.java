@@ -24,7 +24,7 @@ public class AquariumViewer implements MouseListener
     private int        size; // the puzzle is size x size
     private SimpleCanvas sc; // the display window
     
-    private String     lastSolvedStatus;
+    private String lastSolvedStatus;
 
     private int solvedX1;
     private int solvedY1;
@@ -36,23 +36,38 @@ public class AquariumViewer implements MouseListener
     private int resetX2;
     private int resetY2;
     
-    private int hintX1;
-    private int hintY1;
-    private int hintX2;
-    private int hintY2;
+    private int restyleX1;
+    private int restyleY1;
+    private int restyleX2;
+    private int restyleY2;
 
-    private Color bgColour = Color.white;
-    private Color gridColour = Color.black;
-    private Color incorrectNumberColour = Color.red;
-    private Color correctNumberColour = Color.green;
-    private Color aquariumBadColour = Color.red;
-    private Color aquariumGoodColour = Color.green;
-    private Color solvedButtonColour = Color.red;
-    private Color resetButtonColour = Color.blue;
-    private Color hintButtonColour = Color.yellow;
-    private Color waterColour = Color.cyan;
-    private Color airColour = Color.pink;
-    private Color textColour = Color.black;
+    private Color bgColour;
+    private Color gridColour;
+    private Color incorrectNumberColour;
+    private Color correctNumberColour;
+    private Color aquariumBadColour;
+    private Color aquariumGoodColour;
+    private Color solvedButtonColour;
+    private Color resetButtonColour;
+    private Color restyleButtonColour;
+    private Color waterColour;
+    private Color airColour;
+    private Color textColour;
+    
+    private ColourTheme currentTheme;
+    
+    private static enum ColourTheme {
+        DEFAULT,
+        BLACKWHITE,
+        RAINBOW;
+        
+        // From: https://stackoverflow.com/a/17006263
+        private static ColourTheme[] allThemes = values();
+        public ColourTheme next() {
+            return allThemes[(this.ordinal() + 1) % allThemes.length];
+        }
+        
+    }
     
     /**
      * Main constructor for objects of class AquariumViewer.
@@ -71,6 +86,9 @@ public class AquariumViewer implements MouseListener
         
         int fontScaleFactor = 3;        
         sc.setFont(new Font("Arial", Font.BOLD, BOXSIZE / fontScaleFactor));
+        
+        currentTheme = ColourTheme.DEFAULT;
+        setStyle(currentTheme);
         
         displayPuzzle();
     }
@@ -335,11 +353,11 @@ public class AquariumViewer implements MouseListener
         buttonTop = buttonGap;
         buttonBottom = OFFSET - buttonGap - columnNumberSpacer;
         
-        hintX1 = OFFSET;
-        hintY1 = buttonTop;
-        hintX2 = OFFSET + buttonWidth;
-        hintY2 = buttonBottom;
-        displayButton("HINT", hintX1, hintY1, hintX2, hintY2, hintButtonColour);
+        restyleX1 = OFFSET;
+        restyleY1 = buttonTop;
+        restyleX2 = OFFSET + buttonWidth;
+        restyleY2 = buttonBottom;
+        displayButton("RESTYLE", restyleX1, restyleY1, restyleX2, restyleY2, restyleButtonColour);
     }
 
     /**
@@ -392,11 +410,59 @@ public class AquariumViewer implements MouseListener
             puzzle.clear();
             lastSolvedStatus = "";
         }
-        else if (x > hintX1 && x < hintX2 && y > hintY1 && y < hintY2) {
-            
+        else if (x > restyleX1 && x < restyleX2 && y > restyleY1 && y < restyleY2) {
+            currentTheme = currentTheme.next();
+            setStyle(currentTheme);
         }
         
         displayPuzzle();
+    }
+    
+    public void setStyle(ColourTheme theme) {
+        switch(theme) {
+            case DEFAULT:
+                bgColour = Color.white;
+                gridColour = Color.black;
+                incorrectNumberColour = Color.red;
+                correctNumberColour = Color.green;
+                aquariumBadColour = Color.red;
+                aquariumGoodColour = Color.green;
+                solvedButtonColour = Color.red;
+                resetButtonColour = Color.blue;
+                restyleButtonColour = Color.yellow;
+                waterColour = Color.cyan;
+                airColour = Color.pink;
+                textColour = Color.black;
+                break;
+            case BLACKWHITE:
+                bgColour = Color.black;
+                gridColour = Color.white;
+                incorrectNumberColour = Color.gray;
+                correctNumberColour = Color.white;
+                aquariumBadColour = Color.gray;
+                aquariumGoodColour = Color.white;
+                solvedButtonColour = Color.white;
+                resetButtonColour = Color.white;
+                restyleButtonColour = Color.white;
+                waterColour = Color.white;
+                airColour = Color.white;
+                textColour = Color.black;
+            break;
+            case RAINBOW:
+                bgColour = Color.pink;
+                gridColour = Color.red;
+                incorrectNumberColour = Color.red;
+                correctNumberColour = Color.green;
+                aquariumBadColour = Color.blue;
+                aquariumGoodColour = Color.green;
+                solvedButtonColour = Color.orange;
+                resetButtonColour = Color.red;
+                restyleButtonColour = Color.yellow;
+                waterColour = Color.cyan;
+                airColour = Color.black;
+                textColour = Color.white;
+            break;
+        }
     }
 
     public void mouseClicked(MouseEvent e) {}
