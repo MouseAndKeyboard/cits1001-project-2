@@ -14,7 +14,7 @@ public class Aquarium
     private int   size;         // the board is size x size
     private int[] columnTotals; // the totals at the top of the columns, left to right
     private int[] rowTotals;    // the totals at the left of the rows, top to bottom 
-    
+
     // the board divided into aquariums, numbered from 1,2,3,...
     // spaces with the same number are part of the same aquarium
     private int[][] aquariums;
@@ -29,26 +29,26 @@ public class Aquarium
     {
         FileIO fileHandler = new FileIO(filename);
         ArrayList<String> lines = fileHandler.getLines();
-        
+
         columnTotals = parseLine(lines.get(0));
         rowTotals = parseLine(lines.get(1));
-        
+
         size = columnTotals.length;
-        
+
         spaces = new Space[size][size];
         aquariums = new int[size][size];
-        
+
         int skipLines = 3;
-        
+
         for (int lineNumber = skipLines; lineNumber < lines.size(); ++lineNumber) {
             aquariums[lineNumber - skipLines] = parseLine(lines.get(lineNumber));
-            
+
             Space[] spaceRow = new Space[size];
             Arrays.fill(spaceRow, Space.EMPTY);
             spaces[lineNumber - skipLines] = spaceRow;
         }
     }
-    
+
     /**
      * Uses the provided example file on the LMS page.
      */
@@ -65,16 +65,16 @@ public class Aquarium
     public static int[] parseLine(String s)
     {
         String[] numberStrings = s.split(" ");
-        
+
         int[] numbers = new int[numberStrings.length];
-        
+
         for (int numberIndex = 0; numberIndex < numberStrings.length; ++numberIndex) {
             numbers[numberIndex] = Integer.parseInt(numberStrings[numberIndex]);
         }
-        
+
         return numbers;
     }
-    
+
     /**
      * Returns the size of the puzzle.
      */
@@ -82,7 +82,7 @@ public class Aquarium
     {
         return size;
     }
-    
+
     /**
      * Returns the column totals.
      */
@@ -90,7 +90,7 @@ public class Aquarium
     {
         return columnTotals;
     }
-    
+
     /**
      * Returns the row totals.
      */
@@ -98,7 +98,7 @@ public class Aquarium
     {
         return rowTotals;
     }
-    
+
     /**
      * Returns the board in aquariums.
      */
@@ -106,7 +106,7 @@ public class Aquarium
     {
         return aquariums;
     }
-    
+
     /**
      * Returns the board in spaces.
      */
@@ -114,7 +114,7 @@ public class Aquarium
     {
         return spaces;
     }
-    
+
     /**
      * Performs a left click on Square r,c if the indices are legal, o/w does nothing. 
      * A water space becomes empty; other spaces become water. 
@@ -130,7 +130,7 @@ public class Aquarium
             }
         }
     }
-    
+
     /**
      * Performs a right click on Square r,c if the indices are legal, o/w does nothing. 
      * An air space becomes empty; other spaces become air. 
@@ -146,7 +146,7 @@ public class Aquarium
             }
         }
     }
-    
+
     /**
      * Empties all of the spaces.
      */

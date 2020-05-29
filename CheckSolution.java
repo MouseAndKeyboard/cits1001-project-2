@@ -1,5 +1,4 @@
 
-
 /**
  * CheckSolution is a utility class which can check if
  * a board position in an Aquarium puzzle is a solution.
@@ -17,7 +16,7 @@ public class CheckSolution
      * Non-constructor for objects of class CheckSolution
      */
     private CheckSolution(){}
-    
+
     /*
      * AUTOSOLVER COMPONENT
      * Convert a list of lists into a list of ints based on sublist size
@@ -26,10 +25,10 @@ public class CheckSolution
         ArrayList<Integer> condensed = new ArrayList<Integer>();
         for (ArrayList<Integer> sublist : list)
             condensed.add(sublist.size());
-            
+
         return condensed;
     }
-    
+
     /*
      * AUTOSOLVER COMPONENT
      * returns a partition of the row based on contiguous aquarium segments
@@ -47,24 +46,24 @@ public class CheckSolution
                 contiguousSegment = new ArrayList<Integer>();
             } 
             contiguousSegment.add(column);
-            
+
             if (column == p.getSize() - 1) {
                 partition.add(contiguousSegment);
             }
         }
         return partition;
     }
-    
+
     /*
      * AUTOSOLVER COMPONENT
      * returns all subsets from values which sum to sumTarget
      */
     public static ArrayList<ArrayList<Integer>> subsetSums(int sumTarget, ArrayList<Integer> values) {
         ArrayList<ArrayList<Integer>> subsetSums = new ArrayList<ArrayList<Integer>>();
-        
+
         int maxComparison = (int)Math.pow(2, values.size());
         // maxComparison looks like: 000000011111
-        
+
         for (int i = 0; i < maxComparison; ++i) {
             int currentSet = i;
             int sum = 0;
@@ -80,7 +79,7 @@ public class CheckSolution
         }
         return subsetSums;
     }
-    
+
     /*
      * AUTOSOLVER COMPONENT
      * (In theory) should return an aquarium in the solved state [not completed]
@@ -97,7 +96,7 @@ public class CheckSolution
                         p.leftClick(row, col);
             }
         }
-        
+
         return p;
     }
 
