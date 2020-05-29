@@ -41,6 +41,11 @@ public class AquariumViewer implements MouseListener
     private int restyleX2;
     private int restyleY2;
 
+    private int solveX1;
+    private int solveY1;
+    private int solveX2;
+    private int solveY2;
+    
     private Color bgColour;
     private Color gridColour;
     private Color incorrectNumberColour;
@@ -50,6 +55,7 @@ public class AquariumViewer implements MouseListener
     private Color solvedButtonColour;
     private Color resetButtonColour;
     private Color restyleButtonColour;
+    private Color autoSolveButtonColour;
     private Color waterColour;
     private Color airColour;
     private Color textColour;
@@ -358,6 +364,12 @@ public class AquariumViewer implements MouseListener
         restyleX2 = OFFSET + buttonWidth;
         restyleY2 = buttonBottom;
         displayButton("RESTYLE", restyleX1, restyleY1, restyleX2, restyleY2, restyleButtonColour);
+        
+        solveX1 = restyleX2 + buttonGap;
+        solveY1 = buttonTop;
+        solveX2 = solveX1 + buttonWidth;
+        solveY2 = buttonBottom;
+        displayButton("AUTOSOLVE", solveX1, solveY1, solveX2, solveY2, autoSolveButtonColour);
     }
 
     /**
@@ -414,7 +426,9 @@ public class AquariumViewer implements MouseListener
             currentTheme = currentTheme.next();
             setStyle(currentTheme);
         }
-        
+        else if (x > solveX1 && x < solveX2 && y > solveY1 && y < solveY2) {
+            puzzle = CheckSolution.solve(puzzle, 3000);
+        }
         displayPuzzle();
     }
     
@@ -430,6 +444,7 @@ public class AquariumViewer implements MouseListener
                 solvedButtonColour = Color.red;
                 resetButtonColour = Color.blue;
                 restyleButtonColour = Color.yellow;
+                autoSolveButtonColour = Color.blue;
                 waterColour = Color.cyan;
                 airColour = Color.pink;
                 textColour = Color.black;
@@ -444,6 +459,7 @@ public class AquariumViewer implements MouseListener
                 solvedButtonColour = Color.white;
                 resetButtonColour = Color.white;
                 restyleButtonColour = Color.white;
+                autoSolveButtonColour = Color.white;
                 waterColour = Color.white;
                 airColour = Color.white;
                 textColour = Color.black;
@@ -458,6 +474,7 @@ public class AquariumViewer implements MouseListener
                 solvedButtonColour = Color.orange;
                 resetButtonColour = Color.red;
                 restyleButtonColour = Color.yellow;
+                autoSolveButtonColour = Color.green;
                 waterColour = Color.cyan;
                 airColour = Color.black;
                 textColour = Color.white;

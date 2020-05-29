@@ -78,7 +78,29 @@ public class CheckSolution
 
         return newConflicts - oldConflicts;
     }
-
+    
+    public static ArrayList<ArrayList<Integer>> subsetSums(int sumTarget, int[] values) {
+        ArrayList<ArrayList<Integer>> subsetSums = new ArrayList<ArrayList<Integer>>();
+        
+        int maxComparison = (int)Math.pow(2, values.length);
+        // maxComparison looks like: 000000011111
+        
+        for (int i = 0; i < maxComparison; ++i) {
+            int currentSet = i;
+            int sum = 0;
+            ArrayList<Integer> subset = new ArrayList<Integer>();
+            for (int counter = 0; counter < values.length; ++counter) {
+                if (((currentSet >> counter) & 1) == 1) {
+                    sum += values[counter];
+                    subset.add(counter);
+                }
+            }
+            if (sum == sumTarget)
+                subsetSums.add(subset);
+        }
+        return subsetSums;
+    }
+    
     // based on: https://enacademic.com/dic.nsf/enwiki/962116
     /*
      * AUTOSOLVER COMPONENT
