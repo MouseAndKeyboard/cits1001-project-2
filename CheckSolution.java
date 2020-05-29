@@ -1,5 +1,4 @@
 
-
 /**
  * CheckSolution is a utility class which can check if
  * a board position in an Aquarium puzzle is a solution.
@@ -38,20 +37,23 @@ public class CheckSolution
         ArrayList<ArrayList<Integer>> partition = new ArrayList<ArrayList<Integer>>();
         int[] aquariumRow = p.getAquariums()[row];
         int previousAquarium = aquariumRow[0];
+        boolean previousWasWater = false;
         ArrayList<Integer> contiguousSegment = new ArrayList<Integer>();
         for (int column = 0; column < p.getSize(); ++column) {
-            int aquarium = aquariumRow[column];
-            if (aquarium != previousAquarium) {
-                partition.add(contiguousSegment);
-                previousAquarium = aquarium;
-                contiguousSegment = new ArrayList<Integer>();
-            } 
-            contiguousSegment.add(column);
-
-            if (column == p.getSize() - 1) {
-                partition.add(contiguousSegment);
+            if (p.getSpaces()[row][column] != Space.WATER) {
+                int aquarium = aquariumRow[column];
+                if (aquarium != previousAquarium || previousWasWater) {
+                    partition.add(contiguousSegment);
+                    previousAquarium = aquarium;
+                    contiguousSegment = new ArrayList<Integer>();
+                } 
+                contiguousSegment.add(column);
+                previousWasWater = false;
+            } else {
+                previousWasWater = true;
             }
         }
+        partition.add(contiguousSegment);
         return partition;
     }
 
@@ -106,14 +108,14 @@ public class CheckSolution
                         nextRowFills.add(p.getAquariums()[row][col]);
                 }
             }
-            
+
             if (row < p.getSize() - 1)
                 for (int col = 0; col < p.getSize(); ++col) {
                     if (nextRowFills.contains(p.getAquariums()[row + 1][col]) && p.getSpaces()[row + 1][col] != Space.WATER)
                         p.leftClick(row + 1, col);
                 }
         }
-        
+
         return p;
     }
 
