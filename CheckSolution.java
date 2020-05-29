@@ -1,4 +1,5 @@
 
+
 /**
  * CheckSolution is a utility class which can check if
  * a board position in an Aquarium puzzle is a solution.
@@ -97,6 +98,22 @@ public class CheckSolution
             }
         }
 
+        for (int row = 0; row < p.getSize(); ++row) {
+            ArrayList<Integer> nextRowFills = new ArrayList<Integer>();
+            for (int col = 0; col < p.getSize(); ++col) {
+                if (p.getSpaces()[row][col] == Space.WATER) {
+                    if (!nextRowFills.contains(p.getAquariums()[row][col]))
+                        nextRowFills.add(p.getAquariums()[row][col]);
+                }
+            }
+            
+            if (row < p.getSize() - 1)
+                for (int col = 0; col < p.getSize(); ++col) {
+                    if (nextRowFills.contains(p.getAquariums()[row + 1][col]) && p.getSpaces()[row + 1][col] != Space.WATER)
+                        p.leftClick(row + 1, col);
+                }
+        }
+        
         return p;
     }
 
