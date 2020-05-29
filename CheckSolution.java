@@ -4,8 +4,8 @@
  * CheckSolution is a utility class which can check if
  * a board position in an Aquarium puzzle is a solution.
  *
- * @author Lyndon While
- * @version 2020
+ * @author Michael Nefiodovas (22969312) & Lisa Chen (22855669)
+ * @version 1.0
  */
 import java.util.Arrays;
 import java.util.*;

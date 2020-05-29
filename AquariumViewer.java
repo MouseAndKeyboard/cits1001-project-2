@@ -2,8 +2,8 @@
 /**
  * AquariumViewer represents an interface for playing a game of Aquarium.
  *
- * @author Lyndon While
- * @version 2020
+ * @author Michael Nefiodovas (22969312) & Lisa Chen (22855669)
+ * @version 1.0
  */
 import java.awt.*;
 import java.awt.event.*; 
