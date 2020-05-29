@@ -12,7 +12,7 @@ import javax.swing.SwingUtilities;
 public class AquariumViewer implements MouseListener
 {
     // ALL UI scaling is relative to BOXSIZE [UI looks best when it's a multiple of 40]
-    private final int BOXSIZE = 80;          // the size of each square 
+    private final int BOXSIZE = 40;          // the size of each square 
     private final int OFFSET  = BOXSIZE * 2; // the gap around the board
     private final int aquariumBorderWidth = BOXSIZE/10;
     private final int columnNumberSpacer = BOXSIZE/4;
