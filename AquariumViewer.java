@@ -91,7 +91,7 @@ public class AquariumViewer implements MouseListener
         sc.addMouseListener(this);
         
         int fontScaleFactor = 3;        
-        sc.setFont(new Font("Arial", Font.BOLD, BOXSIZE / fontScaleFactor));
+        sc.setFont(new Font("Serif", Font.BOLD, BOXSIZE / fontScaleFactor)); 
         
         currentTheme = ColourTheme.DEFAULT;
         setStyle(currentTheme);
